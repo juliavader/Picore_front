@@ -1,12 +1,15 @@
-import UserApp from "../Screen/CounterApp";
+import UserApp from "../Screen/UserApp";
 import { connect } from 'react-redux'
-import { UserReducer } from "../Store/reducers/UserReducer";
+import { UnlogUser } from "../redux/actions";
 
 function mapStateToProps(state) {
+    return state ; 
 }
 
 function mapDispatchToProps(dispatch){
-
+    return {
+        UnlogUser: () => dispatch(UnlogUser())
+    }
 }
 
 

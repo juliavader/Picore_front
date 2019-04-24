@@ -16,7 +16,7 @@ export default class HeaderComponent extends Component {
                 <Text>Drawer</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity onPress={this.props.home}>
+                <TouchableOpacity onPress={ this.props.home}>
                 <Text>Picore</Text>
                 </TouchableOpacity>
 
