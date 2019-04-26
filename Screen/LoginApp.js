@@ -10,8 +10,6 @@ export default class LoginApp extends Component {
     handleSubmit() { 
         
         this.props.LoginUser(this.state.username, this.state.password);
-        this.state.username = ''
-        this.state.password = ''
         console.log(this.state)
         
 
@@ -30,10 +28,14 @@ export default class LoginApp extends Component {
         return (
             <View style={{flex: 1}}>
 
-                <HeaderComponent
-                    login={()=>this.props.navigation.navigate('Login')}
-                    home={()=>this.props.navigation.navigate('Home')}
-                    drawer={()=>this.props.navigation.toggleDrawer()}
+                <Button
+                    title= "Goback"
+                    onPress={()=>this.props.navigation.goBack()}
+                />
+
+                <Button
+                    title= "S'inscrire"
+                    onPress={()=>this.props.navigation.navigate('Register')}
                 />
                 <View style= {{flex: 4}}>
                 <TextInput placeholder ="nom" onChangeText={(name)=>this.setState({username: name}) }   autoCapitalize='none' />

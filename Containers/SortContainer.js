@@ -1,6 +1,6 @@
 import SortApp from "../Screen/SortApp";
 import { connect } from 'react-redux'
-import {  GetIdeasWithOneSpecification } from "../redux/actions";
+import {  GetIdeasWithOneSpecification, GetAllSubCategories, GetIdeasWithTwoSpecification } from "../redux/actions";
 
 function mapStateToProps(state) {
     return state
@@ -9,8 +9,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return{
-        GetIdeasWithOneSpecification :(id) => dispatch(GetIdeasWithOneSpecification(id))
-        
+        GetIdeasWithOneSpecification :(id) => dispatch(GetIdeasWithOneSpecification(id)),
+        GetIdeasWithTwoSpecification : (cat, subcat)=> dispatch(GetIdeasWithTwoSpecification(cat, subcat)),
+        GetAllSubCategories :(id) => dispatch(GetAllSubCategories(id))
     } 
 }
     

@@ -1,7 +1,8 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { LOGIN_USER, UNLOG_USER , RAND_IDEA, CATEGORIES, ONE_CAT_IDEA} from './actions';
+import { REGISTER_USER, LOGIN_USER, UNLOG_USER , RAND_IDEA, CATEGORIES, ONE_CAT_IDEA, SUBCATEGORIES, TWOSPECIDEAS} from './actions';
 import jwt from 'jwt-decode';
+import {LoginUser} from './actions'
 
 
 // ===============
@@ -22,13 +23,10 @@ function user(state = InitialStateUser, action){
             var UserToken = {...state, UserToken : action.payload}
             if(UserToken.UserToken != undefined){
                 var decoded = jwt(UserToken.UserToken);
-                console.log(decoded)
-                return {...state, email : decoded.email , UserToken: UserToken.UserToken, credit : decoded.credit, name : decoded.username, username : undefined, password: undefined }
+                return {...state, email : decoded.email , UserToken: UserToken.UserToken, credit : decoded.credit, name : decoded.username }
             } 
         case UNLOG_USER : 
-            return {...state, UserToken : undefined, email : undefined, credit : 0, name : undefined};
-        
-        
+            return {...state, UserToken : undefined, email : undefined, credit : 0, name : undefined}
         default:
             return state;
     }
@@ -41,8 +39,10 @@ function user(state = InitialStateUser, action){
 const InitialStateIdea = {
     randomIdea : undefined, 
     categories : undefined,
+    subcategories : undefined,
     selectedCat : undefined, 
-    specificIdea : undefined
+    specificIdea : undefined, 
+    twospecificIdea : undefined
 }
 function Idea(state = InitialStateIdea, action){
     switch(action.type){
@@ -52,7 +52,14 @@ function Idea(state = InitialStateIdea, action){
             return{...state, specificIdea : action.payload}
         case CATEGORIES :
             return {...state, categories : action.payload}
-
+        case SUBCATEGORIES :
+            subcategories = {...state ,subcategories : action.payload}
+            if(subcategories.subcategories != []){
+                return subcategories
+            }
+            return {...state , subcategories : action.payload}
+        case TWOSPECIDEAS :
+            return {...state, twospecificIdea : action.payload}
         default:
             return state;
     }

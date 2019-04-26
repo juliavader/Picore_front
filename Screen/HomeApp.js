@@ -22,15 +22,16 @@ export default class HomeApp extends Component {
     
     
     render() {
+        console.log(this.props)
         
         let random = this.props.Idea.randomIdea
         let specificIdea = this.props.Idea.specificIdea
-
+        let twospecificIdea = this.props.Idea.twospecificIdea
         let idea;
         let getIdea;
 
 
-        if(specificIdea == undefined){
+        if(specificIdea == undefined && twospecificIdea == undefined){
             if (random != undefined){
                 idea = <TouchableOpacity onPress ={()=>this.moreDetails()}><Text>{random.name}</Text></TouchableOpacity>
             }else {
@@ -42,9 +43,18 @@ export default class HomeApp extends Component {
                 </View>
             }
         }else{
-            idea = specificIdea.map((idea, index) =>(
+            if(specificIdea != undefined){
+                idea = specificIdea.map((idea, index) =>(
                     <TouchableOpacity onPress ={()=>this.moreDetails()} key={index} ><Text > {idea.i_name}</Text></TouchableOpacity>
                         ))
+            }else{
+                
+                idea = twospecificIdea.map((idea, index) =>(
+                    <TouchableOpacity onPress ={()=>this.moreDetails()} key={index} ><Text > {idea.i_name}</Text></TouchableOpacity>
+                        ))
+                console.log(idea)
+            }
+            
         }
     
 
@@ -61,7 +71,7 @@ export default class HomeApp extends Component {
                 home={()=>this.props.navigation.navigate('Home')}
                 drawer={()=>this.props.navigation.toggleDrawer()}
                 />
-                <View  style = {{flex: 4}}>
+                <View  style = {{flex: 8}}>
                     {idea}
                     {getIdea}                    
                 </View>

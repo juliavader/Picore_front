@@ -4,6 +4,11 @@ import HeaderComponent from '../Screen/Component/HeaderComponent';
 import LoginContainer from '../Containers/LoginContainer';
 import UserContainer from '../Containers/UserContainer';
 import HomeNavigation from './HomeNavigation';
+import DrawerContainer from "../Containers/DrawerContainer";
+import RegisterContainer from "../Containers/RegisterContainer";
+
+
+
 
 export default createAppContainer(createDrawerNavigator({
     Home : {
@@ -20,6 +25,13 @@ export default createAppContainer(createDrawerNavigator({
             header: HeaderComponent 
         }
     },
+    Register : {
+        screen : RegisterContainer,
+        navigationOptions:{
+            title: 'Register',
+            header: HeaderComponent 
+        }
+    },
     Profile : {
         screen : UserContainer,
         navigationOptions:{
@@ -27,4 +39,6 @@ export default createAppContainer(createDrawerNavigator({
             header: HeaderComponent 
         }
     }
+}, {
+    contentComponent : DrawerContainer  
 }));
