@@ -1,6 +1,6 @@
 import HomeApp from "../Screen/HomeApp";
 import { connect } from 'react-redux'
-import { randomIdea, getAllCategories } from "../redux/actions";
+import { randomIdea, getAllCategories, addFavoriteIdea, GetIdeasWithOneSpecification} from "../redux/actions";
 
 
 function mapStateToProps(state) {
@@ -13,8 +13,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         randomIdea: () => dispatch(randomIdea()), 
-        LoginUser: (name, password) => dispatch(LoginUser(name, password)),
-        getAllCategories: () => dispatch(getAllCategories())
+        getAllCategories: () => dispatch(getAllCategories()),
+        addFavoriteIdea: (idea, user)=>dispatch(addFavoriteIdea(idea, user)),
+        GetIdeasWithOneSpecification: (id)=>dispatch(GetIdeasWithOneSpecification(id))
     }
 }
 

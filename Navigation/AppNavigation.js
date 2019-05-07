@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { createAppContainer, createDrawerNavigator, Header } from "react-navigation";
 import HeaderComponent from '../Screen/Component/HeaderComponent';
 import LoginContainer from '../Containers/LoginContainer';
-import UserContainer from '../Containers/UserContainer';
+import UserNavigation from "./UserNavigation";
 import HomeNavigation from './HomeNavigation';
 import DrawerContainer from "../Containers/DrawerContainer";
 import RegisterContainer from "../Containers/RegisterContainer";
@@ -33,7 +33,7 @@ export default createAppContainer(createDrawerNavigator({
         }
     },
     Profile : {
-        screen : UserContainer,
+        screen : UserNavigation,
         navigationOptions:{
             title: 'Profile',
             header: HeaderComponent 

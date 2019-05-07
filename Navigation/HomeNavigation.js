@@ -3,7 +3,7 @@ import HeaderComponent from '../Screen/Component/HeaderComponent';
 import HomeContainer from '../Containers/HomeContainer';
 import DetailsContainer from '../Containers/DetailsContainer';
 import SortContainer from '../Containers/SortContainer';
-import { createAppContainer, createStackNavigator, Header } from "react-navigation";
+import { createAppContainer, createStackNavigator} from "react-navigation";
 
 export default createAppContainer(createStackNavigator({
         Home : {

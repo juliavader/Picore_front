@@ -1,53 +1,72 @@
 import React, { Component } from 'react'
-import { View, TextInput, Button, Text } from "react-native";
-import HeaderComponent from "./Component/HeaderComponent";
+import { View, TextInput, ActivityIndicator, Text, TouchableOpacity, Image, ImageBackground } from "react-native";
+import styles from "./styles/Loginstyles";
+import colors from "./styles/colors";
 
 
 export default class LoginApp extends Component {
     
     
 
-    handleSubmit() { 
-        
-        this.props.LoginUser(this.state.username, this.state.password);
-        console.log(this.state)
-        
 
+    handleSubmit() { 
+        this.props.user.disabled = true 
+        this.props.LoginUser(this.state.username, this.state.password);
     }
     
+
+
+
     render() {
-        
-        const { navigate } = this.props.navigation;
-        let loggedIn;
-        if (this.props.user.UserToken == undefined){
-            loggedIn = <View><Text>user is NOT connected</Text></View>
+        let ButtonSend
+        if(this.props.user.disabled == false){
+            ButtonSend = <Text style= {styles.ButtonSendTitle} >Se connecter</Text>
+                        
         }else{
-            setTimeout(()=>{ navigate('Home') }, 500);
-            }
-                
+            ButtonSend = <ActivityIndicator size="small" color={colors.white} style={{paddingTop : 10}} />          
+        }
+
         return (
-            <View style={{flex: 1}}>
+            <ImageBackground 
+                style={styles.backgroundLogin}
+                source={require('../assets/images/background_clear.png')}
+                resizeMode='contain'
+                >
+                <View style={ styles.headerLogin}>
+                    
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('Register')} style={styles.registerButton}>
+                        <Text style = {styles.registerButtonText}>S'inscrire</Text>
+                    </TouchableOpacity>
 
-                <Button
-                    title= "Goback"
-                    onPress={()=>this.props.navigation.goBack()}
-                />
+                    <TouchableOpacity   onPress= {()=>this.props.navigation.goBack()}> 
+                        <Image 
+                        style={styles.goBackTouch}
+                        source={require('../assets/images/goBack.png')}
 
-                <Button
-                    title= "S'inscrire"
-                    onPress={()=>this.props.navigation.navigate('Register')}
-                />
-                <View style= {{flex: 4}}>
-                <TextInput placeholder ="nom" onChangeText={(name)=>this.setState({username: name}) }   autoCapitalize='none' />
-                <TextInput placeholder = "mot de passe" onChangeText={(password)=>this.setState({password: password})}   autoCapitalize='none' />
-                <Button title="Se connecter" 
-                onPress = {()=>this.handleSubmit()}/>
-                
-                {loggedIn}
+                        />
+                    </TouchableOpacity>
+
+                </View>
+                <View style= {{alignItems : 'center', flex : 5}}>
+                    <Image 
+                            style={styles.Image}
+                            source={require('../assets/images/happy_picore.png')}
+                            resizeMode='contain'
+                            />
+                    <Text style={styles.title} >Connecte-Toi ! </Text>
+                </View>
+                <View style= {{flex: 6, alignItems : 'center'}}>
+                    
+                    <TextInput placeholder ="Pseudo" placeholderTextColor = {colors.red}  onChangeText={(name)=>this.setState({username: name}) }   autoCapitalize='none' style={styles.Input} />
+                    <TextInput placeholder = "Mot de passe" placeholderTextColor = {colors.red} secureTextEntry={true} onChangeText={(password)=>this.setState({password: password})}  style={styles.Input} autoCapitalize='none' />
+                    <TouchableOpacity onPress={()=>this.handleSubmit()} style={styles.ButtonSend}>
+                        { ButtonSend }
+                    </TouchableOpacity>
+                    
                 </View>
                 
 
-            </View>
+            </ImageBackground>
         )
     }
 }

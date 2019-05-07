@@ -51,6 +51,7 @@ export function registerAndLoginUser(username, email, password){
     }
 }
 
+
 // LOGIN USER
 
 export const  LOGIN_USER = 'LOGIN_USER';
@@ -75,6 +76,7 @@ export function LoginUser(name, password){
         })
         .then(response => response.json())
         .then(data => dispatch(receiveToken(data.token)))
+        .then(data => dispatch(FavoriteIdeaByUser(data.payload)))
         .catch(function (error) {
             console.log(error);
         });
@@ -93,6 +95,39 @@ export const Unlog= () =>({
 export function UnlogUser(){
     return Unlog()
 }
+
+
+
+// ALL SUBCATEGORIES
+export const  FAVORITES_IDEA_BY_USER = 'FAVORITES_IDEA_BY_USER';
+
+export const receiveFavoriteIdeaByUser = data =>({
+    type: FAVORITES_IDEA_BY_USER, payload: data
+});
+
+
+export function FavoriteIdeaByUser(token){
+    return dispatch =>{
+        return fetch ('http://'+ipAdress+':8000/api/getAllFavoritesByUser', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + token,
+            }, 
+        })
+        .then(response => response.json())
+        .then(data => dispatch(receiveFavoriteIdeaByUser(data)))
+        .then( () => {this.props.navigation.navigate('Home')})
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+}
+
+
+
+
+
 
 
 // RANDOM IDEA
@@ -132,6 +167,7 @@ export function GetIdeasWithOneSpecification(id){
         })
         .then(response => response.json())
         .then(data =>dispatch(receiveOneCategoryIdea(data)))
+        .then( () => {this.props.navigation.navigate('Home')})
         .catch(function (error) {
             console.log(error);
         });
@@ -152,6 +188,7 @@ export function getAllCategories(){
         })
         .then(response => response.json())
         .then(data => dispatch(receiveCategories(data)))
+        .then( () => {this.props.navigation.navigate('Home')})
         .catch(function (error) {
             console.log(error);
         });
@@ -188,15 +225,116 @@ export const receiveTwoCategoriesIdeas = data =>({
 });
 
 
+
 export function GetIdeasWithTwoSpecification(cat, subcat){
+    
+    
     return dispatch =>{
         return fetch ('http://'+ipAdress+':8000/specificIdea/'+cat+'/'+subcat, {
             method: 'GET',
         })
+        
         .then(response => response.json())
         .then(data => dispatch(receiveTwoCategoriesIdeas(data)))
+        .then(()=>this.props.navigation.navigate('Home', {}, {
+            title : cat
+        }))
+        // .then(()=>this.props.navigation.navigate('DetailsFavorite', {
+        //     title : cat
+        // }))
+        
         .catch(function (error) {
             console.log(error);
         });
     }
+}
+
+
+
+
+
+// ALL SUBCATEGORIES
+export const  ADDFAVORITESIDEA = 'ADDFAVORITESIDEA';
+
+export const receiveFavoriteIdea = data =>({
+    type: ADDFAVORITESIDEA, payload: data
+});
+
+
+export function addFavoriteIdea(idea, user){
+    return dispatch =>{
+        console.log(idea, user)
+        let data = new FormData();
+        data.append('idea', idea);
+        data.append('user', user);
+        console.log(idea, user)
+        
+
+        return fetch ('http://'+ipAdress+':8000/addFavorite', {
+            method: 'POST',
+            body: data,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+        
+            }
+        })
+        .then(response => response.json())
+        .then(data => dispatch(receiveFavoriteIdea(data)))
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+}
+
+
+export const  ADD_IDEA = 'ADD_IDEA';
+
+export const receiveAddIdea = data =>({
+    type: ADD_IDEA, payload: data
+});
+
+export function addIdea(title, description, category, compagnies, images, urls, token){
+    return dispatch =>{
+        let data = new FormData();
+        data.append('title', title);
+        data.append('description', description);
+        data.append('category', category);
+        compagnies.map((compagny, index)=>{
+            data.append('compagny['+index+']', compagny);
+        })
+        images.map((image, index)=>{
+            data.append('image['+index+']', image);
+        })
+        urls.map((url, index)=>{
+            data.append('url['+index+']', url);
+        })
+
+        return fetch ('http://'+ipAdress+':8000/api/newIdea', {
+            method: 'POST',
+            body: data,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + token,
+            }
+        })
+        .then(response => response.json())
+        .then(data => dispatch(receiveAddIdea(data)))
+        .then(() => this.props.navigation.navigate('Profile'))
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+}
+
+
+// UNLOG USER
+
+export const  DELETE_SPEC = 'DELETE_SPEC';
+
+export const deleteSpec= () =>({
+    type: DELETE_SPEC
+});
+
+export function DeleteSpecifications(){
+    return deleteSpec()
 }
